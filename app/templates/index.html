@@ -2,25 +2,40 @@
 
 {% block content %}
 <div class="row text-center">
-    <h1>{{ title }}</h1>
     <div class="col-md-12">
         <p>
-            Username: {{ current_user.username }}
+            Hi {{  current_user.username  }}, say something:
         </p>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.body.label }} <br>
+                {{ form.body(size=32) }} <br>
+                {% for error in form.body.errors %}
+                <span style="color: red;">
+                    {{ error }}
+                </span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.submit() }}
+            </p>
+        </form>
     </div>
 </div>
-<div class="row text-center">
-    <div class="col-md-6">
-        <img src="https://picsum.photos/seed/picsum/200/300" 
-        alt="https://picsum.photos/id/237/200/300">
-        <img src="https://picsum.photos/id/237/200/300" 
-        alt="">
-    </div>
-    <div class="col-md-6">
-        <img src="https://picsum.photos/seed/picsum/200/300" 
-        alt="">
-        <img src="https://picsum.photos/id/237/200/300" 
-        alt="">
+<hr>
+<div class="row">
+    <div class="col-md-12">
+        {% for post in posts %}
+            {% if post %}
+                <table>
+                    <tr valign="top">
+                        <td><img src="{{  post.author.avatar(36)  }}" alt=""></td>
+                        <td>{{ post.author.username }} says: <br>{{ post.body }}</td>
+                    </tr>
+                </table>
+            {% endif %}
+        {% endfor %}
     </div>
 </div>
 {% endblock%}
